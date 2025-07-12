@@ -1,6 +1,6 @@
 #!/bin/bash
 # script: mapear_estrutura.sh
-# Versão: 1.0
+# Versão: 2.2
 # Uso: ./mapear_estrutura.sh [opções] [caminho_do_projeto]
 # Autor: Sistema de Mapeamento de Estruturas
 
@@ -20,7 +20,7 @@ APENAS_DIRETORIOS=false
 COLORIR_SAIDA=true
 INCLUIR_PERMISSOES=false
 ARQUIVO_MAPIGNORE=".mapignore"
-VERSAO="2.1"
+VERSAO="2.2"
 
 # Cores para output
 RED='\033[0;31m'
@@ -80,7 +80,7 @@ ${BLUE}EXEMPLOS:${NC}
     \$0 -l 3 -o estrutura.txt ~/projeto   # Mapeia até 3 níveis e salva em arquivo
     \$0 -f json -o estrutura.json         # Salva em formato JSON
     \$0 -f markdown -o README.md          # Salva em formato Markdown
-    \$0 -v -s -a                          # Modo verboso, com tamanhos e arquivos ocultos
+    \$0 -v -s -a                           # Modo verboso, com tamanhos e arquivos ocultos
 
 ${BLUE}FORMATOS DISPONÍVEIS:${NC}
     tree     - Formato árvore tradicional (padrão)
@@ -247,7 +247,12 @@ mapear_estrutura() {
     esac
 
     if [ $? -ne 0 ]; then
-        log "ERROR" "Erro ao gerar estrutura"
+        log "ERROR" "Erro ao gerar estrutura com os argumentos: ${args[*]}"
+        exit 1
+    fi
+
+    if [ -z "$saida" ]; then
+        log "ERROR" "Saída vazia. Nenhum conteúdo foi gerado."
         exit 1
     fi
 
