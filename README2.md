@@ -183,7 +183,7 @@ Diretório: /home/usuario/
 
 ## 📝 Versão
 
-Versão atual: `3.0`  
+Versão atual: `1.0`  
 Data: `Julho de 2025`  
 Autor: *Sistema de Mapeamento de Estruturas*  
 Licença: MIT
