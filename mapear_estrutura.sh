@@ -1,6 +1,6 @@
 #!/bin/bash
 # script: mapear_estrutura.sh
-# Versão: 2.2
+# Versão: 1.2
 # Uso: ./mapear_estrutura.sh [opções] [caminho_do_projeto]
 # Autor: Sistema de Mapeamento de Estruturas
 
