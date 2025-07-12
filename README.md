@@ -163,7 +163,7 @@ __pycache__
 
 ## 📦 Informações Adicionais
 
-- **Versão:** 2.1
+- **Versão:** 1.0
 - **Autor:** Sistema de Mapeamento de Estruturas
 - **Licença:** MIT (livre para uso e modificação)
 
