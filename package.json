@@ -1,0 +1,35 @@
+{
+  "name": "mapear-estrutura",
+  "version": "3.0.0",
+  "description": "Biblioteca profissional para mapeamento de estrutura de diretórios com funcionalidades de segurança",
+  "main": "libmapear.sh",
+  "scripts": {
+    "test": "echo \"Teste não implementado ainda\" && exit 0",
+    "install": "chmod +x mapear_estrutura.sh libmapear.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seu-usuario/mapear-estrutura.git"
+  },
+  "keywords": [
+    "bash",
+    "shell",
+    "directory",
+    "structure",
+    "mapper",
+    "security",
+    "cybersecurity",
+    "pentest",
+    "utility"
+  ],
+  "author": "Sistema de Mapeamento de Estruturas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seu-usuario/mapear-estrutura/issues"
+  },
+  "homepage": "https://github.com/seu-usuario/mapear-estrutura#readme",
+  "dependencies": {},
+  "bin": {
+    "mapear-estrutura": "./mapear_estrutura.sh"
+  }
+}
