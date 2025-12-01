@@ -1,0 +1,54 @@
+# Cybersecurity Toolkit Configuration Example
+#
+# Copy this file to ~/.cybersec/config.yaml or /etc/cybersec/config.yaml
+# to customize the toolkit behavior
+
+log_level: "INFO"                    # Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+output_format: "markdown"            # Default output format (markdown, json, html, txt)
+
+scan:
+  cores: 4                           # Number of cores to use for parallel scanning
+  deep_scan: false                   # Enable deep scanning (more thorough but slower)
+  check_hidden_files: true           # Check for hidden files during filesystem scans
+  timeout: 30                        # Default timeout for network operations (seconds)
+  max_file_size: 10485760            # Maximum file size to scan (10MB)
+
+network:
+  ports_to_check:                    # List of ports to check during network scans
+    - 21    # FTP
+    - 22    # SSH
+    - 23    # Telnet
+    - 25    # SMTP
+    - 53    # DNS
+    - 80    # HTTP
+    - 110   # POP3
+    - 143   # IMAP
+    - 443   # HTTPS
+    - 993   # IMAPS
+    - 995   # POP3S
+    - 3389  # RDP
+    - 5900  # VNC
+    - 8080  # HTTP Alternative
+  timeout: 5                         # Network timeout for port checks (seconds)
+  scan_range: "192.168.1.0/24"      # Default network range for network scanning
+
+firewall:
+  ban_duration: 3600                 # Default ban duration in seconds (1 hour)
+  threshold: 5                       # Threshold for automatic banning
+  auto_ban: true                     # Enable automatic banning of suspicious IPs
+  ban_reason: "Automated security ban" # Default reason for bans
+
+docker:
+  check_running_containers: true     # Check running containers during Docker scans
+  check_exposed_ports: true          # Check for exposed ports in containers
+  internal_networks:                 # List of internal Docker networks
+    - "bridge"
+    - "host"
+  ignored_ports:                     # Ports to ignore during Docker port checks
+    - 53   # DNS
+    - 123  # NTP
+
+reporting:
+  output_dir: "~/cybersec_reports"   # Directory for generated reports
+  keep_history: 10                   # Number of reports to keep in history
+  include_sensitive: false           # Whether to include sensitive information in reports
