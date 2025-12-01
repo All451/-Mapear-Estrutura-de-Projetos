@@ -1,0 +1,11 @@
+# Arquivos e pastas a serem ignorados
+node_modules
+.git
+__pycache__
+*.tmp
+*.swp
+*.log
+build
+dist
+*.pyc
+.DS_Store

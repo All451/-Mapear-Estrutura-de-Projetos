@@ -1,190 +1,234 @@
-# 🗃️ Mapear Estrutura de Projetos
+# 🗺️ Mapear Estrutura de Diretórios (Biblioteca Profissional)
 
-## 📌 Visão Geral
+> Biblioteca de utilitário para mapeamento de estrutura de diretórios com funcionalidades de segurança integradas
 
-O script `mapear_estrutura.sh` é uma ferramenta poderosa e flexível para mapear a estrutura de diretórios de projetos. Ele gera uma representação visual em diversos formatos (como árvore, JSON, Markdown e texto simples), permitindo que você documente, compartilhe ou analise a arquitetura de qualquer projeto rapidamente.
+## 📌 Sobre
 
----
+A biblioteca `libmapear.sh` é uma solução profissional para mapeamento de estrutura de diretórios, desenvolvida com as melhores práticas de engenharia de software. Oferece:
 
-## 🧰 Requisitos
-
-Antes de executar o script, certifique-se de ter os seguintes pacotes instalados:
-
-- `tree`: Para navegar pela estrutura do diretório
-- `jq` (opcional): Para suporte ao formato JSON avançado
-
-### Instalação nos principais sistemas:
-
-#### Ubuntu/Debian:
-```bash
-sudo apt install tree jq
-```
-
-#### CentOS/RHEL:
-```bash
-sudo yum install tree jq
-```
-
-#### macOS (com Homebrew):
-```bash
-brew install tree jq
-```
+- **Modularidade**: Código organizado em uma biblioteca reutilizável
+- **Segurança**: Detecção de arquivos sensíveis e permissões fracas
+- **Flexibilidade**: Múltiplos formatos de saída (tree, JSON, Markdown, plain)
+- **Profissionalismo**: Código limpo, documentado e testável
 
 ---
 
-## 🔧 Uso Básico
+## 🛠️ Funcionalidades
+
+| Recurso | Descrição |
+|--------|-----------|
+| 🔍 **Modo Segurança** (`--security`) | Ativa varredura automática por arquivos sensíveis e permissões fracas |
+| 📁 **Suporta múltiplos formatos** | tree (padrão), json, markdown, plain |
+| 🧠 **Ignora padrões personalizados** | Com base no `.mapignore` |
+| 🕵️‍♂️ **Arquivos ocultos** | Mostra arquivos iniciados com `.` |
+| 🔐 **Permissões dos arquivos** | Mostra permissões Linux (`-rwxrwxrwx`) |
+| 📏 **Tamanhos dos arquivos** | Exibe tamanho em bytes |
+| 📥 **Exporta para arquivo** | Salva saída em qualquer formato suportado |
+| 🏗️ **Arquitetura modular** | Código separado em biblioteca e interface de usuário |
+
+---
+
+## ⚙️ Requisitos
+
+Antes de executar o script, instale as dependências necessárias:
 
 ```bash
-./mapear_estrutura.sh [opções] [caminho_do_projeto]
+sudo apt update && sudo apt install tree -y
+sudo apt install jq -y  # Opcional, necessário para JSON
 ```
-
-Se nenhum caminho for especificado, o script usa o diretório atual (`.`).
 
 ---
 
-## ⚙️ Opções Disponíveis
+## 📦 Instalação
 
-| Opção               | Descrição                                                  |
-|---------------------|------------------------------------------------------------|
-| `-l NIVEL`<br>`--level NIVEL` | Limita a profundidade da varredura (ex: `-l 2`) |
-| `-o ARQUIVO`<br>`--output ARQUIVO` | Salva a saída em um arquivo |
-| `-f FORMATO`<br>`--format FORMATO` | Formato de saída (valores: `tree`, `json`, `markdown`, `plain`) |
-| `-v`<br>`--verbose` | Ativa modo verboso (mostra logs detalhados) |
-| `-h`<br>`--help`    | Mostra ajuda e exemplos                                     |
-| `-V`<br>`--version` | Exibe versão do script                                      |
-| `-a`<br>`--all`     | Inclui arquivos ocultos (começam com `.`)                  |
-| `-s`<br>`--size`    | Mostra tamanho dos arquivos                                |
-| `-d`<br>`--dirs-only` | Mostra apenas diretórios                                 |
-| `-C`<br>`--no-color` | Desativa uso de cores na saída                            |
-| `-p`<br>`--permissions` | Mostra permissões dos arquivos                          |
-| `-i ARQ`<br>`--ignore-file ARQ` | Especifica um arquivo `.mapignore` personalizado |
+1. Dê permissão de execução:
+```bash
+chmod +x mapear_estrutura.sh libmapear.sh
+```
+
+2. Execute diretamente:
+```bash
+./mapear_estrutura.sh [opções] [diretório]
+```
 
 ---
 
-## 📄 Formatos de Saída Suportados
+## 🧪 Uso Básico
 
-### `tree` (padrão)
-Saída hierárquica com indentação, similar ao comando `tree`.
-
-```text
-.
-├── src/
-│   ├── main.py
-│   └── utils.py
-└── README.md
+### Mapear estrutura atual
+```bash
+./mapear_estrutura.sh .
 ```
 
-### `json`
-Estrutura hierárquica em formato JSON válido. Requer `jq` instalado.
-
-```json
-{
-  "src": {
-    "main.py": {},
-    "utils.py": {}
-  },
-  "README.md": {}
-}
+### Mapear diretório específico
+```bash
+./mapear_estrutura.sh /home/usuario/projeto
 ```
 
-### `markdown`
-Formato compatível com documentação Markdown, ideal para integrar em `README.md`.
-
-```markdown
-# Estrutura do Projeto
-
-Gerado em: 2025-04-05 14:30:00  
-Diretório: /home/user/meu-projeto
-
-```
-.
-├── src/
-│   ├── main.py
-│   └── utils.py
-└── README.md
-```
+### Mapear com modo segurança (recomendado em pentests)
+```bash
+./mapear_estrutura.sh --security -s -p -a /home/usuario/
 ```
 
-### `plain`
-Lista plana de diretórios e arquivos, sem formatação adicional.
-
-```text
-src/
-src/main.py
-src/utils.py
-README.md
+### Exportar para Markdown
+```bash
+./mapear_estrutura.sh --security -f markdown /etc > relatorio_etc.md
 ```
+
+### Exportar para JSON
+```bash
+./mapear_estrutura.sh --security -f json /var/www > analise.json
+```
+
+---
+
+## 🧭 Opções Disponíveis
+
+| Opção | Descrição |
+|-------|-----------|
+| `-l NIVEL`, `--level NIVEL` | Limita profundidade da árvore |
+| `-o ARQUIVO`, `--output ARQUIVO` | Salva saída em arquivo |
+| `-f FORMATO`, `--format FORMATO` | Formato de saída (`tree`, `json`, `markdown`, `plain`) |
+| `-v`, `--verbose` | Modo verboso (mostra logs detalhados) |
+| `-h`, `--help` | Mostra ajuda |
+| `-V`, `--version` | Mostra versão |
+| `-a`, `--all` | Inclui arquivos ocultos |
+| `-s`, `--size` | Mostra tamanhos dos arquivos |
+| `-d`, `--dirs-only` | Mostra apenas diretórios |
+| `-C`, `--no-color` | Desativa cores na saída |
+| `-p`, `--permissions` | Mostra permissões dos arquivos |
+| `-i ARQUIVO`, `--ignore-file ARQUIVO` | Define arquivo `.mapignore` personalizado |
+| `--security` | Ativa modo de análise de segurança (busca arquivos sensíveis e permissões fracas) |
 
 ---
 
 ## 📁 Arquivo `.mapignore`
 
-Você pode criar um arquivo chamado `.mapignore` na raiz do projeto para ignorar certas pastas ou arquivos durante o mapeamento. O conteúdo segue padrões glob similares ao `.gitignore`.
+Você pode criar um arquivo chamado `.mapignore` no diretório alvo para especificar quais pastas/arquivos devem ser ignorados.
 
-### Exemplo de `.mapignore`:
-```text
-# Ignorar estas pastas
+Exemplo de conteúdo:
+```
 node_modules
 .git
 __pycache__
-
-# Ignorar todos os arquivos temporários
-*.tmp
-*.swp
-```
-
-> A pasta `node_modules` é ignorada por padrão, mesmo que não esteja no `.mapignore`.
-
----
-
-## 🧪 Exemplos de Uso
-
-### 1. Mapear estrutura básica
-```bash
-./mapear_estrutura.sh
-```
-
-### 2. Mapear até 2 níveis de profundidade e salvar em Markdown
-```bash
-./mapear_estrutura.sh -l 2 -f markdown -o estrutura.md ~/meu-projeto
-```
-
-### 3. Mostrar tamanhos, incluir arquivos ocultos e exibir saída JSON
-```bash
-./mapear_estrutura.sh -s -a -f json ~/projeto > estrutura.json
-```
-
-### 4. Mapear apenas diretórios (ignorando arquivos)
-```bash
-./mapear_estrutura.sh -d ~/projeto
+*.log
+.env
 ```
 
 ---
 
-## 📦 Informações Adicionais
+## 🧠 Exemplos Práticos
 
-- **Versão:** 1.0
-- **Autor:** Sistema de Mapeamento de Estruturas
-- **Licença:** MIT (livre para uso e modificação)
+### Buscar arquivos sensíveis em `/home`
+```bash
+./mapear_estrutura.sh --security -a /home
+```
+
+### Mapear diretório raiz com profundidade limitada
+```bash
+sudo ./mapear_estrutura.sh --security -l 2 / > mapeamento_root.txt
+```
+
+### Usar remotamente via SSH
+```bash
+ssh usuario@ip_remoto "./mapear_estrutura.sh --security -f markdown /home/usuario/" > relatorio_remoto.md
+```
 
 ---
 
-## 💡 Dicas
+## 📊 Saída de Exemplo (Markdown)
+
+```markdown
+# Estrutura do Diretório
+
+Gerado em: Sat Jul 12 18:00:00 UTC 2025  
+Diretório: /home/usuario/
+
+```
+/home/usuario/
+├── .bashrc
+├── .ssh
+│   └── id_rsa
+├── documentos
+│   └── config.php
+└── logs
+    └── acesso.log
+```
+
+## 🔍 Arquivos Sensíveis Encontrados
+```
+/home/usuario/.ssh/id_rsa
+/home/usuario/documentos/config.php
+/home/usuario/logs/acesso.log
+```
+
+## 🔒 Permissões Fracas Encontradas
+-rw-rw-rw- 1 usuario usuario  3456 Jan  1  2020 /home/usuario/logs/acesso.log
+```
+```
+
+---
+
+## 🏗️ Arquitetura do Projeto
+
+```
+mapear_estrutura.sh     # Interface de linha de comando
+├── libmapear.sh        # Biblioteca de funções
+    ├── log()           # Sistema de logging
+    ├── verificar_dependencias()  # Verificação de requisitos
+    ├── ler_mapignore() # Leitura de padrões de ignore
+    ├── gerar_json()    # Formato JSON
+    ├── gerar_markdown() # Formato Markdown
+    ├── gerar_plain()   # Formato texto simples
+    ├── buscar_arquivos_sensiveis() # Busca de arquivos sensíveis
+    ├── buscar_permissoes_fracas() # Busca de permissões fracas
+    └── mapear_estrutura() # Função principal
+```
+
+---
+
+## 📝 Versão
+
+Versão atual: `3.0`  
+Data: `Dezembro de 2025`  
+Autor: *Sistema de Mapeamento de Estruturas*  
+Licença: MIT
+
+---
+
+## 💬 Utilizando como Biblioteca
+
+Você pode importar a biblioteca em seus próprios scripts Bash:
+
+```bash
+#!/bin/bash
+source "./libmapear.sh"
+
+# Agora você pode usar as funções diretamente
+PADROES_IGNORE=$(ler_mapignore ".mapignore")
+mapear_estrutura "/caminho/diretorio" "$PADROES_IGNORE" "false"
+```
+
+---
+
+## 💡 Dicas Profissionais
 
 - Use `-v` para depurar problemas durante execução.
 - Combine com CI/CD para gerar documentação automaticamente.
 - Mantenha o `.mapignore` atualizado para evitar excessos na saída.
+- Utilize o modo segurança (`--security`) em ambientes de segurança.
+- Exporte para JSON para integração com outras ferramentas.
 
 ---
 
 ## 🛠️ Contribuição
 
-Contribuições são bem-vindas! Se você deseja melhorar o script ou esta documentação:
+Contribuições são bem-vindas! Se você tem ideias para melhorar a biblioteca ou adicionar novas funcionalidades, fique à vontade para abrir uma issue ou PR no repositório.
 
-1. Fork o repositório
-2. Crie uma nova branch (`git checkout -b feature/nova-feature`)
-3. Faça suas alterações
-4. Commit suas mudanças (`git commit -m 'Adicionar nova feature'`)
-5. Push para sua branch (`git push origin feature/nova-feature`)
-6. Abra um Pull Request
+### Melhorias Futuras Planejadas
+- Suporte para exportar para XML
+- Integração com APIs REST
+- Sistema de plugins para funcionalidades adicionais
+- Testes automatizados
+- Validação de entrada mais robusta
 
