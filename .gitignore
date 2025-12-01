@@ -4,16 +4,15 @@
 __pycache__/
 *.o
 *.obj
-*.so
-*.dll
-*.exe
-*.class
 *.out
+*.exe
+*.dll
+*.so
+*.a
 
 # Dependencies
 .venv/
 venv/
-env/
 node_modules/
 dist/
 build/
@@ -21,9 +20,9 @@ target/
 .gradle/
 .mypy_cache/
 .pytest_cache/
-.coverage
 coverage/
 htmlcov/
+.coverage
 
 # Logs and temp files
 *.log
