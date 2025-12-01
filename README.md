@@ -1,234 +1,310 @@
-# 🗺️ Mapear Estrutura de Diretórios (Biblioteca Profissional)
+# 🛡️ Cybersecurity Toolkit
 
-> Biblioteca de utilitário para mapeamento de estrutura de diretórios com funcionalidades de segurança integradas
+[![Version](https://img.shields.io/badge/version-3.0.0-blue)](VERSION)
+[![Python](https://img.shields.io/badge/python-3.8+-green)](requirements.txt)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-## 📌 Sobre
+> A comprehensive cybersecurity toolkit for system analysis, network security, firewall management, and threat detection
 
-A biblioteca `libmapear.sh` é uma solução profissional para mapeamento de estrutura de diretórios, desenvolvida com as melhores práticas de engenharia de software. Oferece:
+## 📋 Table of Contents
+- [About](#about)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Modules](#modules)
+- [CLI Interface](#cli-interface)
+- [Configuration](#configuration)
+- [Examples](#examples)
+- [Development](#development)
 
-- **Modularidade**: Código organizado em uma biblioteca reutilizável
-- **Segurança**: Detecção de arquivos sensíveis e permissões fracas
-- **Flexibilidade**: Múltiplos formatos de saída (tree, JSON, Markdown, plain)
-- **Profissionalismo**: Código limpo, documentado e testável
+## 📌 About
 
----
+The Cybersecurity Toolkit is a comprehensive security solution that integrates multiple security modules for comprehensive system analysis and protection. It combines the power of both Python and Shell implementations to provide:
 
-## 🛠️ Funcionalidades
+- **System Analysis**: Integrity checking, process monitoring, log analysis
+- **Network Security**: UFW firewall status, open port detection, vulnerability assessment
+- **Firewall Management**: IP banning/unbanning with fban2
+- **Container Security**: Docker exposure detection
+- **File System Security**: Sensitive file detection and permission analysis
 
-| Recurso | Descrição |
-|--------|-----------|
-| 🔍 **Modo Segurança** (`--security`) | Ativa varredura automática por arquivos sensíveis e permissões fracas |
-| 📁 **Suporta múltiplos formatos** | tree (padrão), json, markdown, plain |
-| 🧠 **Ignora padrões personalizados** | Com base no `.mapignore` |
-| 🕵️‍♂️ **Arquivos ocultos** | Mostra arquivos iniciados com `.` |
-| 🔐 **Permissões dos arquivos** | Mostra permissões Linux (`-rwxrwxrwx`) |
-| 📏 **Tamanhos dos arquivos** | Exibe tamanho em bytes |
-| 📥 **Exporta para arquivo** | Salva saída em qualquer formato suportado |
-| 🏗️ **Arquitetura modular** | Código separado em biblioteca e interface de usuário |
+## ✅ Features
 
----
+### 🔍 System Analysis
+- System integrity checking
+- Process monitoring for suspicious activities
+- Log analysis for security events
+- Security audit capabilities
 
-## ⚙️ Requisitos
+### 🌐 Network Security
+- UFW firewall status monitoring
+- Open port detection and analysis
+- Vulnerable port identification
+- Network exposure assessment
 
-Antes de executar o script, instale as dependências necessárias:
+### 🛡️ Firewall Management
+- Advanced IP banning/unbanning (fban2)
+- Automatic ban from log analysis
+- Ban status tracking
+- Support for iptables and UFW
 
+### 🐳 Container Security
+- Docker container exposure detection
+- Port accessibility testing
+- Service identification
+- Risk level assessment
+
+### 📁 File System Security
+- Sensitive file detection (.env, config files, keys, etc.)
+- Weak permission identification
+- Security issue scanning
+- Directory structure mapping with security analysis
+
+### 📊 Reporting & Intelligence
+- Comprehensive security reports
+- Automated recommendations
+- Threat intelligence ready
+- Multi-format output (JSON, Markdown, plain text)
+
+## ⚙️ Installation
+
+### Prerequisites
 ```bash
-sudo apt update && sudo apt install tree -y
-sudo apt install jq -y  # Opcional, necessário para JSON
+# Install required dependencies
+sudo apt update
+sudo apt install tree jq python3 python3-pip -y
 ```
 
----
-
-## 📦 Instalação
-
-1. Dê permissão de execução:
+### Setup
 ```bash
-chmod +x mapear_estrutura.sh libmapear.sh
+# Clone or download the repository
+# Make scripts executable
+chmod +x *.sh *.py
+
+# Install Python dependencies (if any)
+pip3 install -r requirements.txt
 ```
 
-2. Execute diretamente:
+## 🚀 Usage
+
+### Quick Start
 ```bash
-./mapear_estrutura.sh [opções] [diretório]
+# Run the complete toolkit
+./run_cybersec_toolkit.sh
+
+# Or directly with Python
+python3 cybersec_toolkit.py
+
+# Comprehensive scan
+python3 cybersec_toolkit.py --scan
+
+# Interactive mode
+python3 cybersec_toolkit.py -i
+
+# Shell version
+bash cybersecurity_suite.sh
 ```
 
----
+### Command Line Options
+| Option | Description |
+|--------|-------------|
+| `--scan` | Run comprehensive security scan |
+| `-i`, `--interactive` | Run in interactive mode |
+| `-v`, `--version` | Show version information |
+| `-h`, `--help` | Show help message |
 
-## 🧪 Uso Básico
+## 🧩 Modules
 
-### Mapear estrutura atual
+The toolkit is organized into several modules:
+
+### Core Security Module
+- `cybersecurity_module.py/sh` - Core security functions
+- `security_audit()` - Basic security audit
+- `check_system_integrity()` - System integrity verification
+
+### Network Security Module
+- `ufw_port_checker.py/sh` - UFW and port analysis
+- `list_open_ports()` - Identify open ports
+- `check_ufw_status()` - Firewall status
+
+### Firewall Management Module
+- `fban2.py/sh` - Advanced firewall management
+- `ban_ip()` - Ban IP addresses
+- `unban_ip()` - Unban IP addresses
+- `check_ip_status()` - Check ban status
+
+### Container Security Module
+- `docker_exposure_checker.py/sh` - Docker security
+- `DockerExposureChecker` - Container exposure detection
+- Security recommendations for containers
+
+### Directory Mapping Module
+- `mapear_estrutura.sh/libmapear.sh` - Security-focused directory mapping
+- Multiple output formats (tree, JSON, Markdown, plain)
+- Sensitive file detection
+- Permission analysis
+
+## 🖥️ CLI Interface
+
+### Interactive Mode
 ```bash
-./mapear_estrutura.sh .
+python3 cybersec_toolkit.py -i
 ```
 
-### Mapear diretório específico
+The interactive mode provides a menu-driven interface:
+1. Run Comprehensive Security Scan
+2. Network Security Analysis
+3. Firewall Management
+4. Docker Container Security
+5. File System Security
+6. Threat Intelligence Check
+7. Exit
+
+### Firewall Management Menu
+- Ban an IP address
+- Unban an IP address
+- Check IP status
+- List banned IPs
+- Return to main menu
+
+## ⚙️ Configuration
+
+The toolkit can be configured using a configuration file (coming in future versions):
+
+```yaml
+# cybersec.config.yaml (planned feature)
+general:
+  log_level: INFO
+  output_format: markdown
+  color_output: true
+
+security:
+  scan_depth: 2
+  include_hidden: false
+  check_permissions: true
+
+network:
+  ufw_enabled: true
+  check_ports: [22, 80, 443, 3306, 5432]
+
+firewall:
+  ban_duration: 3600
+  auto_ban_threshold: 5
+  log_file: /var/log/auth.log
+
+docker:
+  check_exposure: true
+  internal_networks: [172.17.0.0/16]
+```
+
+## 🧪 Examples
+
+### Comprehensive Security Scan
 ```bash
-./mapear_estrutura.sh /home/usuario/projeto
+python3 cybersec_toolkit.py --scan
 ```
 
-### Mapear com modo segurança (recomendado em pentests)
+### Interactive Security Analysis
 ```bash
-./mapear_estrutura.sh --security -s -p -a /home/usuario/
+python3 cybersec_toolkit.py -i
 ```
 
-### Exportar para Markdown
+### Network Security Check
 ```bash
-./mapear_estrutura.sh --security -f markdown /etc > relatorio_etc.md
+python3 cybersecurity_suite.py
+# Then select option 2 for network security analysis
 ```
 
-### Exportar para JSON
+### Firewall Management
 ```bash
-./mapear_estrutura.sh --security -f json /var/www > analise.json
+python3 cybersecurity_suite.py -i
+# Then select option 3 for firewall management
 ```
 
----
-
-## 🧭 Opções Disponíveis
-
-| Opção | Descrição |
-|-------|-----------|
-| `-l NIVEL`, `--level NIVEL` | Limita profundidade da árvore |
-| `-o ARQUIVO`, `--output ARQUIVO` | Salva saída em arquivo |
-| `-f FORMATO`, `--format FORMATO` | Formato de saída (`tree`, `json`, `markdown`, `plain`) |
-| `-v`, `--verbose` | Modo verboso (mostra logs detalhados) |
-| `-h`, `--help` | Mostra ajuda |
-| `-V`, `--version` | Mostra versão |
-| `-a`, `--all` | Inclui arquivos ocultos |
-| `-s`, `--size` | Mostra tamanhos dos arquivos |
-| `-d`, `--dirs-only` | Mostra apenas diretórios |
-| `-C`, `--no-color` | Desativa cores na saída |
-| `-p`, `--permissions` | Mostra permissões dos arquivos |
-| `-i ARQUIVO`, `--ignore-file ARQUIVO` | Define arquivo `.mapignore` personalizado |
-| `--security` | Ativa modo de análise de segurança (busca arquivos sensíveis e permissões fracas) |
-
----
-
-## 📁 Arquivo `.mapignore`
-
-Você pode criar um arquivo chamado `.mapignore` no diretório alvo para especificar quais pastas/arquivos devem ser ignorados.
-
-Exemplo de conteúdo:
-```
-node_modules
-.git
-__pycache__
-*.log
-.env
-```
-
----
-
-## 🧠 Exemplos Práticos
-
-### Buscar arquivos sensíveis em `/home`
+### Directory Mapping with Security Analysis
 ```bash
-./mapear_estrutura.sh --security -a /home
+# Map current directory with security checks
+./mapear_estrutura.sh --security -a .
+
+# Export to JSON format
+./mapear_estrutura.sh --security -f json /etc > etc_analysis.json
+
+# Limit depth and show permissions
+./mapear_estrutura.sh --security -l 2 -p /home/user/
 ```
 
-### Mapear diretório raiz com profundidade limitada
-```bash
-sudo ./mapear_estrutura.sh --security -l 2 / > mapeamento_root.txt
+## 🛠️ Development
+
+### Project Structure
+```
+cybersec-toolkit/
+├── README.md                          # Main documentation
+├── VERSION                           # Version file
+├── CHANGELOG.md                      # Version history
+├── LICENSE                         # License information
+├── requirements.txt                 # Python dependencies
+├── cybersec_toolkit.py             # Main entry point
+├── cybersecurity_suite.py/sh       # Main security suite
+├── cybersecurity_module.py/sh      # Core security functions
+├── ufw_port_checker.py/sh          # Network security
+├── fban2.py/sh                     # Firewall management
+├── docker_exposure_checker.py/sh   # Container security
+├── mapear_estrutura.sh/libmapear.sh # Directory mapping
+├── run_cybersec_toolkit.sh         # Easy run script
+└── docs/                           # Additional documentation
 ```
 
-### Usar remotamente via SSH
-```bash
-ssh usuario@ip_remoto "./mapear_estrutura.sh --security -f markdown /home/usuario/" > relatorio_remoto.md
-```
+### Adding New Modules
+1. Create a new module file following the naming convention
+2. Implement the required functions
+3. Import the module in the main suite
+4. Add menu options if needed
+5. Update documentation
 
----
+## 🤝 Contributing
 
-## 📊 Saída de Exemplo (Markdown)
+Contributions are welcome! Here are some ways you can contribute:
 
-```markdown
-# Estrutura do Diretório
+1. **Bug Reports**: Open an issue if you find a bug
+2. **Feature Requests**: Suggest new features or improvements
+3. **Code Contributions**: Submit pull requests for fixes or features
+4. **Documentation**: Improve existing documentation or add new guides
+5. **Testing**: Help test and validate the tools
 
-Gerado em: Sat Jul 12 18:00:00 UTC 2025  
-Diretório: /home/usuario/
+### Development Guidelines
+- Follow Python PEP 8 style guidelines
+- Write clear, descriptive commit messages
+- Include tests for new functionality
+- Update documentation for new features
+- Ensure backward compatibility when possible
 
-```
-/home/usuario/
-├── .bashrc
-├── .ssh
-│   └── id_rsa
-├── documentos
-│   └── config.php
-└── logs
-    └── acesso.log
-```
+## 📝 Versioning
 
-## 🔍 Arquivos Sensíveis Encontrados
-```
-/home/usuario/.ssh/id_rsa
-/home/usuario/documentos/config.php
-/home/usuario/logs/acesso.log
-```
+This project follows Semantic Versioning (SemVer). For the versions available, see the [CHANGELOG.md](CHANGELOG.md).
 
-## 🔒 Permissões Fracas Encontradas
--rw-rw-rw- 1 usuario usuario  3456 Jan  1  2020 /home/usuario/logs/acesso.log
-```
-```
+Current version: `3.0.0`
 
----
+## 📄 License
 
-## 🏗️ Arquitetura do Projeto
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-```
-mapear_estrutura.sh     # Interface de linha de comando
-├── libmapear.sh        # Biblioteca de funções
-    ├── log()           # Sistema de logging
-    ├── verificar_dependencias()  # Verificação de requisitos
-    ├── ler_mapignore() # Leitura de padrões de ignore
-    ├── gerar_json()    # Formato JSON
-    ├── gerar_markdown() # Formato Markdown
-    ├── gerar_plain()   # Formato texto simples
-    ├── buscar_arquivos_sensiveis() # Busca de arquivos sensíveis
-    ├── buscar_permissoes_fracas() # Busca de permissões fracas
-    └── mapear_estrutura() # Função principal
-```
+## 🚀 Future Enhancements
 
----
+Planned improvements for future versions:
+- [ ] Automated testing framework
+- [ ] Enhanced logging with rotation
+- [ ] Configuration file support
+- [ ] API endpoints for integration
+- [ ] Web dashboard interface
+- [ ] Threat intelligence integration
+- [ ] Plugin system for custom modules
+- [ ] CI/CD integration
+- [ ] Docker container for easy deployment
 
-## 📝 Versão
+## 📞 Support
 
-Versão atual: `3.0`  
-Data: `Dezembro de 2025`  
-Autor: *Sistema de Mapeamento de Estruturas*  
-Licença: MIT
+If you need help with the toolkit:
 
----
-
-## 💬 Utilizando como Biblioteca
-
-Você pode importar a biblioteca em seus próprios scripts Bash:
-
-```bash
-#!/bin/bash
-source "./libmapear.sh"
-
-# Agora você pode usar as funções diretamente
-PADROES_IGNORE=$(ler_mapignore ".mapignore")
-mapear_estrutura "/caminho/diretorio" "$PADROES_IGNORE" "false"
-```
-
----
-
-## 💡 Dicas Profissionais
-
-- Use `-v` para depurar problemas durante execução.
-- Combine com CI/CD para gerar documentação automaticamente.
-- Mantenha o `.mapignore` atualizado para evitar excessos na saída.
-- Utilize o modo segurança (`--security`) em ambientes de segurança.
-- Exporte para JSON para integração com outras ferramentas.
-
----
-
-## 🛠️ Contribuição
-
-Contribuições são bem-vindas! Se você tem ideias para melhorar a biblioteca ou adicionar novas funcionalidades, fique à vontade para abrir uma issue ou PR no repositório.
-
-### Melhorias Futuras Planejadas
-- Suporte para exportar para XML
-- Integração com APIs REST
-- Sistema de plugins para funcionalidades adicionais
-- Testes automatizados
-- Validação de entrada mais robusta
-
+1. Check the documentation in this README
+2. Review the example usage in the Examples section
+3. Look at the source code comments
+4. Open an issue in the repository if you find a bug or need a feature

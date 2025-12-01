@@ -3,12 +3,115 @@
 Cybersecurity Toolkit - Main Entry Point
 This is the main entry point for the comprehensive cybersecurity toolkit.
 """
-
 import os
 import sys
 import subprocess
 import argparse
 from datetime import datetime
+
+# Import our new modules
+from cybersec_config import CybersecConfig
+from cybersec_logging import CybersecLogger
+from cybersecurity_suite import CybersecuritySuite
+
+
+class CybersecToolkit:
+    """
+    Main class for the Cybersecurity Toolkit
+    """
+    
+    def __init__(self):
+        """
+        Initialize the toolkit
+        """
+        self.config = CybersecConfig()
+        self.logger = CybersecLogger(
+            name="cybersec_toolkit",
+            log_file="/tmp/cybersec_toolkit.log",
+            level=self.config.get('general.log_level', 'INFO')
+        )
+        self.suite = CybersecuritySuite()
+    
+    def run_comprehensive_scan(self):
+        """
+        Run a comprehensive security scan
+        """
+        self.logger.log_security_event(
+            "scan_start", 
+            "Starting comprehensive security scan", 
+            "INFO"
+        )
+        
+        try:
+            self.suite.run_comprehensive_scan()
+            self.logger.log_security_event(
+                "scan_complete", 
+                "Comprehensive security scan completed", 
+                "INFO"
+            )
+        except Exception as e:
+            self.logger.log_security_event(
+                "scan_error", 
+                f"Error during comprehensive scan: {str(e)}", 
+                "ERROR"
+            )
+            raise
+    
+    def run_interactive_mode(self):
+        """
+        Run the toolkit in interactive mode
+        """
+        self.logger.log_security_event(
+            "interactive_start", 
+            "Starting interactive mode", 
+            "INFO"
+        )
+        
+        try:
+            self.suite.interactive_mode()
+            self.logger.log_security_event(
+                "interactive_exit", 
+                "Exiting interactive mode", 
+                "INFO"
+            )
+        except Exception as e:
+            self.logger.log_security_event(
+                "interactive_error", 
+                f"Error in interactive mode: {str(e)}", 
+                "ERROR"
+            )
+            raise
+    
+    def show_version(self):
+        """
+        Show version information
+        """
+        try:
+            with open("VERSION", "r") as f:
+                version = f.read().strip()
+        except FileNotFoundError:
+            version = "unknown"
+        
+        print(f"Cybersecurity Toolkit v{version}")
+        print("A comprehensive tool for system security analysis and protection")
+    
+    def show_help(self):
+        """
+        Show help information
+        """
+        print("Cybersecurity Toolkit - Help")
+        print("=" * 40)
+        print("Available commands:")
+        print("  --scan, -s          Run comprehensive security scan")
+        print("  --interactive, -i   Run in interactive mode")
+        print("  --version, -v       Show version information")
+        print("  --help, -h          Show this help message")
+        print("")
+        print("Examples:")
+        print("  python3 cybersec_toolkit.py --scan")
+        print("  python3 cybersec_toolkit.py -i")
+        print("  python3 cybersec_toolkit.py --version")
+
 
 def check_dependencies():
     """
@@ -17,7 +120,7 @@ def check_dependencies():
     print("Checking dependencies...")
     
     # Check Python modules
-    required_modules = ['docker', 'requests']
+    required_modules = ['docker', 'requests', 'yaml']
     missing_modules = []
     
     for module in required_modules:
@@ -32,7 +135,7 @@ def check_dependencies():
         return False
     
     # Check system commands
-    required_commands = ['ufw', 'docker']
+    required_commands = ['ufw', 'docker', 'tree', 'jq']
     missing_commands = []
     
     for cmd in required_commands:
@@ -47,68 +150,19 @@ def check_dependencies():
                 print("  Install with: sudo apt install ufw")
             elif cmd == 'docker':
                 print("  Install with: Follow official Docker installation guide")
+            elif cmd == 'tree':
+                print("  Install with: sudo apt install tree")
+            elif cmd == 'jq':
+                print("  Install with: sudo apt install jq")
     
     return True
 
-def run_python_suite():
-    """
-    Run the Python-based cybersecurity suite
-    """
-    try:
-        from cybersecurity_suite import CybersecuritySuite
-        suite = CybersecuritySuite()
-        
-        parser = argparse.ArgumentParser(description='Comprehensive Cybersecurity Suite')
-        parser.add_argument('--scan', action='store_true', help='Run comprehensive security scan')
-        parser.add_argument('--interactive', '-i', action='store_true', help='Run in interactive mode')
-        parser.add_argument('--version', '-v', action='store_true', help='Show version information')
-        
-        args = parser.parse_args()
-        
-        if args.version:
-            print("Cybersecurity Suite v1.0")
-            print("A comprehensive tool for system security analysis and protection")
-            return
-        
-        if args.scan:
-            suite.run_comprehensive_scan()
-        elif args.interactive:
-            suite.interactive_mode()
-        else:
-            # Default to interactive mode if no arguments provided
-            print("Welcome to the Cybersecurity Suite!")
-            print("Use --scan for a comprehensive security scan")
-            print("Use --interactive or -i for interactive mode")
-            print("Use --version or -v for version information")
-            suite.interactive_mode()
-            
-    except ImportError as e:
-        print(f"Error importing cybersecurity suite: {e}")
-        print("Make sure all required modules are installed.")
-        sys.exit(1)
-
-def run_shell_suite():
-    """
-    Run the shell-based cybersecurity suite
-    """
-    try:
-        # Make the shell script executable
-        os.chmod('cybersecurity_suite.sh', 0o755)
-        
-        # Run the shell script
-        if len(sys.argv) > 1:
-            subprocess.run(['bash', 'cybersecurity_suite.sh'] + sys.argv[1:])
-        else:
-            subprocess.run(['bash', 'cybersecurity_suite.sh'])
-    except Exception as e:
-        print(f"Error running shell suite: {e}")
-        sys.exit(1)
 
 def main():
     """
     Main function to run the cybersecurity toolkit
     """
-    print("🛡️  CYBERSECURITY TOOLKIT v1.0 🛡️")
+    print("🛡️  CYBERSECURITY TOOLKIT v3.0.0 🛡️")
     print("A comprehensive tool for system security analysis and protection")
     print("="*65)
     
@@ -120,17 +174,57 @@ def main():
         if response not in ['y', 'yes', '']:
             sys.exit(0)
     
-    # Determine which suite to run based on arguments or availability
-    if len(sys.argv) > 1:
-        if sys.argv[1] in ['--scan', '--interactive', '-i', '--version', '-v', '--help', '-h']:
-            # Use Python suite for specific commands
-            run_python_suite()
-        else:
-            # Use shell suite for other commands
-            run_shell_suite()
+    # Parse arguments using the new argument parser
+    parser = argparse.ArgumentParser(
+        description='Comprehensive Cybersecurity Toolkit',
+        prog='cybersec_toolkit'
+    )
+    
+    # Add arguments
+    parser.add_argument(
+        '--scan', 
+        action='store_true', 
+        help='Run comprehensive security scan'
+    )
+    parser.add_argument(
+        '--interactive', '-i', 
+        action='store_true', 
+        help='Run in interactive mode'
+    )
+    parser.add_argument(
+        '--version', '-v', 
+        action='store_true', 
+        help='Show version information'
+    )
+    parser.add_argument(
+        '--help-cmd', '-H', 
+        action='store_true', 
+        help='Show help information'
+    )
+    
+    # Parse arguments
+    args = parser.parse_args()
+    
+    # Create toolkit instance
+    toolkit = CybersecToolkit()
+    
+    # Handle arguments
+    if args.version:
+        toolkit.show_version()
+    elif args.help_cmd:
+        toolkit.show_help()
+    elif args.scan:
+        toolkit.run_comprehensive_scan()
+    elif args.interactive:
+        toolkit.run_interactive_mode()
     else:
-        # Default to Python suite with interactive mode
-        run_python_suite()
+        # Default to interactive mode if no arguments provided
+        print("Welcome to the Cybersecurity Toolkit!")
+        print("Use --scan for a comprehensive security scan")
+        print("Use --interactive or -i for interactive mode")
+        print("Use --version or -v for version information")
+        toolkit.run_interactive_mode()
+
 
 if __name__ == "__main__":
     main()
