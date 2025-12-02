@@ -3,9 +3,6 @@
 [![Version](https://img.shields.io/badge/version-3.0.0-blue)](VERSION)
 [![Python](https://img.shields.io/badge/python-3.8+-green)](requirements.txt)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![CI/CD](https://github.com/cybersec-toolkit/cybersec-toolkit/workflows/CI/CD%20Pipeline/badge.svg)](https://github.com/cybersec-toolkit/cybersec-toolkit/actions)
-[![Code Quality](https://img.shields.io/badge/code%20quality-black-black)](https://github.com/psf/black)
-[![Security: Bandit](https://img.shields.io/badge/security-bandit-green)](https://github.com/PyCQA/bandit)
 
 > A comprehensive cybersecurity toolkit for system analysis, network security, firewall management, and threat detection
 
@@ -14,17 +11,11 @@
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Development](#development)
-- [Security](#security)
-- [CI/CD](#cicd)
 - [Modules](#modules)
 - [CLI Interface](#cli-interface)
 - [Configuration](#configuration)
 - [Examples](#examples)
-- [Contributing](#contributing)
-- [Versioning](#versioning)
-- [License](#license)
-- [Support](#support)
+- [Development](#development)
 
 ## 📌 About
 
@@ -35,17 +26,6 @@ The Cybersecurity Toolkit is a comprehensive security solution that integrates m
 - **Firewall Management**: IP banning/unbanning with fban2
 - **Container Security**: Docker exposure detection
 - **File System Security**: Sensitive file detection and permission analysis
-
-### 🎯 Professional Features
-
-- **Docker Support**: Containerized deployment with security best practices
-- **CI/CD Pipeline**: Automated testing, security scanning, and deployment
-- **Code Quality**: Black formatting, MyPy type checking, Flake8 linting
-- **Security Scanning**: Bandit SAST analysis integrated in workflow
-- **Comprehensive Testing**: Unit, integration, and security tests
-- **Configuration Management**: YAML-based configuration system
-- **Structured Logging**: Rotating logs with security event tracking
-- **Input Validation**: Protection against path traversal and command injection
 
 ## ✅ Features
 
@@ -102,37 +82,6 @@ chmod +x *.sh *.py
 
 # Install Python dependencies (if any)
 pip3 install -r requirements.txt
-
-# Install in development mode with dev dependencies
-pip3 install -e .[dev]
-```
-
-### Using Docker
-```bash
-# Build the Docker image
-docker build -t cybersec-toolkit .
-
-# Run the toolkit in Docker
-docker run --rm -it \
-  -v /var/log:/var/log:ro \
-  -v /var/run/docker.sock:/var/run/docker.sock:ro \
-  -v $(pwd):/app:ro \
-  cybersec-toolkit
-```
-
-### Using Make
-```bash
-# Install dependencies
-make install
-
-# Run tests
-make test
-
-# Run in interactive mode
-make run-interactive
-
-# Run comprehensive scan
-make run-scan
 ```
 
 ## 🚀 Usage
@@ -219,38 +168,32 @@ The interactive mode provides a menu-driven interface:
 
 ## ⚙️ Configuration
 
-The toolkit uses a configuration file system:
+The toolkit can be configured using a configuration file (coming in future versions):
 
 ```yaml
-# cybersec.config.yaml
-docker:
-  check_exposure: true
-  check_running_containers: true
-  internal_networks:
-  - 172.17.0.0/16
-firewall:
-  auto_ban_threshold: 5
-  ban_duration: 3600
-  log_file: /var/log/auth.log
+# cybersec.config.yaml (planned feature)
 general:
-  color_output: true
   log_level: INFO
   output_format: markdown
-  verbose: false
-network:
-  check_ports:
-  - 22
-  - 80
-  - 443
-  - 3306
-  - 5432
-  scan_network_interfaces: true
-  ufw_enabled: true
+  color_output: true
+
 security:
-  check_permissions: true
-  detect_sensitive_files: true
-  include_hidden: false
   scan_depth: 2
+  include_hidden: false
+  check_permissions: true
+
+network:
+  ufw_enabled: true
+  check_ports: [22, 80, 443, 3306, 5432]
+
+firewall:
+  ban_duration: 3600
+  auto_ban_threshold: 5
+  log_file: /var/log/auth.log
+
+docker:
+  check_exposure: true
+  internal_networks: [172.17.0.0/16]
 ```
 
 ## 🧪 Examples
@@ -299,11 +242,6 @@ cybersec-toolkit/
 ├── CHANGELOG.md                      # Version history
 ├── LICENSE                         # License information
 ├── requirements.txt                 # Python dependencies
-├── pyproject.toml                   # Build and tool configuration
-├── Dockerfile                       # Container configuration
-├── docker-compose.yml               # Container orchestration
-├── Makefile                         # Development tasks
-├── CODING_STANDARDS.md              # Coding standards
 ├── cybersec_toolkit.py             # Main entry point
 ├── cybersecurity_suite.py/sh       # Main security suite
 ├── cybersecurity_module.py/sh      # Core security functions
@@ -312,84 +250,15 @@ cybersec-toolkit/
 ├── docker_exposure_checker.py/sh   # Container security
 ├── mapear_estrutura.sh/libmapear.sh # Directory mapping
 ├── run_cybersec_toolkit.sh         # Easy run script
-├── cybersec_config.py              # Configuration system
-├── cybersec_logging.py             # Logging system
-├── .github/workflows/ci.yml        # CI/CD pipeline
-├── tests/                          # Test suite
-├── docs/                           # Additional documentation
-└── cybersec/                       # Modular components
-    ├── __init__.py
-    ├── cli/
-    ├── core/
-    └── utils/
-```
-
-### Development Commands
-```bash
-# Install development dependencies
-make install
-
-# Run all tests with coverage
-make test
-
-# Run code quality checks
-make lint
-
-# Format code
-make format
-
-# Run security checks
-make security-check
-
-# Build Docker image
-make docker-build
-
-# Clean generated files
-make clean
+└── docs/                           # Additional documentation
 ```
 
 ### Adding New Modules
 1. Create a new module file following the naming convention
-2. Implement the required functions with proper type hints and docstrings
+2. Implement the required functions
 3. Import the module in the main suite
 4. Add menu options if needed
 5. Update documentation
-6. Write unit tests for new functionality
-
-## 🔐 Security
-
-### Security Best Practices Implemented
-
-1. **Input Validation**: All user inputs are validated and sanitized
-2. **Path Traversal Protection**: Using `pathlib.Path` with proper validation
-3. **Command Injection Prevention**: Safe subprocess execution with allowed commands list
-4. **Permission Checks**: Proper validation of file and system permissions
-5. **Secure Logging**: Rotating logs with security event tracking
-6. **Configuration Validation**: YAML configuration with schema validation
-
-### Security Testing
-- Static Analysis with Bandit
-- Dependency Vulnerability Scanning
-- Input Validation Testing
-- Permission Boundary Testing
-
-## 🚀 CI/CD
-
-The project includes a comprehensive CI/CD pipeline:
-
-### GitHub Actions Workflow
-- Code Quality Checks (Flake8, Black, MyPy)
-- Security Scanning (Bandit, Trivy)
-- Unit and Integration Tests
-- Coverage Reporting
-- Docker Image Building and Publishing
-- Automated Releases
-
-### Quality Gates
-- All tests must pass
-- Code coverage threshold maintained
-- Security scan must pass
-- Code quality metrics satisfied
 
 ## 🤝 Contributing
 
@@ -407,7 +276,6 @@ Contributions are welcome! Here are some ways you can contribute:
 - Include tests for new functionality
 - Update documentation for new features
 - Ensure backward compatibility when possible
-- Follow the coding standards in [CODING_STANDARDS.md](CODING_STANDARDS.md)
 
 ## 📝 Versioning
 
@@ -422,14 +290,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🚀 Future Enhancements
 
 Planned improvements for future versions:
-- [ ] Advanced threat intelligence integration
-- [ ] Web dashboard interface
-- [ ] API endpoints for integration
-- [ ] Plugin system for custom modules
+- [ ] Automated testing framework
 - [ ] Enhanced logging with rotation
-- [ ] Configuration file support improvements
-- [ ] Containerized deployment options
-- [ ] Performance optimization
+- [ ] Configuration file support
+- [ ] API endpoints for integration
+- [ ] Web dashboard interface
+- [ ] Threat intelligence integration
+- [ ] Plugin system for custom modules
+- [ ] CI/CD integration
+- [ ] Docker container for easy deployment
 
 ## 📞 Support
 
