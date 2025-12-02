@@ -29,8 +29,18 @@ def log_security_event(event_type, description):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_entry = f"[{timestamp}] {event_type}: {description}\n"
     
-    with open("/var/log/security.log", "a") as log_file:
-        log_file.write(log_entry)
+    # Try to write to system log, fallback to local file if no permissions
+    try:
+        with open("/var/log/security.log", "a") as log_file:
+            log_file.write(log_entry)
+    except (PermissionError, OSError):
+        # Fallback to local log file
+        try:
+            with open("security.log", "a") as log_file:
+                log_file.write(log_entry)
+        except OSError:
+            # If all else fails, just print to console
+            print(f"Could not write to log file: {log_entry.strip()}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,28 @@
+docker:
+  check_exposure: true
+  check_running_containers: true
+  internal_networks:
+  - 172.17.0.0/16
+firewall:
+  auto_ban_threshold: 5
+  ban_duration: 3600
+  log_file: /var/log/auth.log
+general:
+  color_output: true
+  log_level: INFO
+  output_format: markdown
+  verbose: false
+network:
+  check_ports:
+  - 22
+  - 80
+  - 443
+  - 3306
+  - 5432
+  scan_network_interfaces: true
+  ufw_enabled: true
+security:
+  check_permissions: true
+  detect_sensitive_files: true
+  include_hidden: false
+  scan_depth: 2

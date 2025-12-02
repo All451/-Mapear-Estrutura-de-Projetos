@@ -96,11 +96,14 @@ class FBan2:
         """
         Check if an IP is currently banned
         """
-        # Check using iptables
+        # Check if iptables command exists
         try:
-            result = subprocess.run(['iptables', '-L', '-n'], capture_output=True, text=True)
-            if ip_address in result.stdout:
-                return True
+            result = subprocess.run(['which', 'iptables'], capture_output=True, text=True)
+            if result.returncode == 0:
+                # iptables is available, check system rules
+                result = subprocess.run(['iptables', '-L', '-n'], capture_output=True, text=True)
+                if ip_address in result.stdout:
+                    return True
         except:
             pass
         
@@ -112,6 +115,12 @@ class FBan2:
         List all currently banned IPs
         """
         try:
+            # Check if iptables command exists
+            result = subprocess.run(['which', 'iptables'], capture_output=True, text=True)
+            if result.returncode != 0:
+                # iptables is not available, return only internal list
+                return list(self.banned_ips)
+            
             # Get bans from iptables
             result = subprocess.run(['iptables', '-L', 'INPUT', '-n'], capture_output=True, text=True)
             iptables_bans = set()

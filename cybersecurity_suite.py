@@ -200,11 +200,17 @@ class CybersecuritySuite:
         
         # Look for sensitive files in current directory
         sensitive_files = []
-        for root, dirs, files in os.walk('.'):
+        # Limit scan to current directory and subdirectories to prevent path traversal
+        for root, dirs, files in os.walk('.', topdown=True):
+            # Don't go too deep to avoid performance issues
+            dirs[:] = [d for d in dirs if not d.startswith('.')]  # Skip hidden directories
             for file in files:
                 if any(sensitive in file.lower() for sensitive in 
                       ['.env', 'config', 'password', 'secret', 'key', 'token', '.pem', '.key', 'id_rsa']):
-                    sensitive_files.append(os.path.join(root, file))
+                    full_path = os.path.join(root, file)
+                    # Only add if the path is under the current directory
+                    if os.path.abspath(full_path).startswith(os.path.abspath('.')):
+                        sensitive_files.append(full_path)
         
         if sensitive_files:
             print(f"  - Found {len(sensitive_files)} potentially sensitive files:")
@@ -406,7 +412,25 @@ def main():
     suite = CybersecuritySuite()
     
     if args.version:
-        print("Cybersecurity Suite v1.0")
+        # Try to read version from VERSION file if it exists
+        version = "Unknown"
+        try:
+            with open("VERSION", "r") as f:
+                version = f.read().strip()
+        except FileNotFoundError:
+            try:
+                # Check if VERSION file exists in the project root
+                import os
+                version_file = os.path.join(os.path.dirname(__file__), "VERSION")
+                if os.path.exists(version_file):
+                    with open(version_file, "r") as f:
+                        version = f.read().strip()
+                else:
+                    version = "1.0.0"  # Default version
+            except:
+                version = "1.0.0"  # Default fallback
+        
+        print(f"Cybersecurity Suite v{version}")
         print("A comprehensive tool for system security analysis and protection")
         return
     
