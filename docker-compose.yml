@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  cybersec-toolkit:
+    build: .
+    container_name: cybersec-toolkit
+    volumes:
+      # Montar diretórios necessários para escaneamento
+      - /var/log:/var/log:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # Para verificar containers Docker
+      - .:/app:ro  # Montar o diretório atual como somente leitura
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+    # Permissões limitadas - não usar privileged a menos que estritamente necessário
+    cap_add:
+      - NET_ADMIN  # Necessário para algumas verificações de rede
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - cybersec-network
+
+  # Serviço opcional para execução de scans programados
+  cybersec-scheduler:
+    build: .
+    container_name: cybersec-scheduler
+    volumes:
+      - /var/log:/var/log:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - .:/app:ro
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+    command: ["python", "cybersec_toolkit.py", "--scan"]
+    networks:
+      - cybersec-network
+    restart: "no"  # Não reiniciar automaticamente após conclusão
+
+networks:
+  cybersec-network:
+    driver: bridge
+    # Configuração de rede segura
+    enable_ipv6: false
+    driver_opts:
+      com.docker.network.bridge.enable_icc: "false"  # Isolamento entre containers
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.driver.mtu: 1500
