@@ -10,7 +10,13 @@ import socket
 import requests
 import logging
 from typing import List, Dict, Any
-import docker
+
+# Handle docker module import gracefully
+try:
+    import docker
+except ImportError:
+    docker = None
+    print("Warning: docker module not found. Docker checking functionality will be limited.")
 
 class DockerExposureChecker:
     """
@@ -33,6 +39,9 @@ class DockerExposureChecker:
         """Initialize Docker client"""
         try:
             if self.client is None:
+                if docker is None:
+                    self.logger.error("Docker module not available")
+                    return None
                 self.client = docker.from_env()
             return self.client
         except Exception as e:
